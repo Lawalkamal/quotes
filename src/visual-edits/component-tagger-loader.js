@@ -458,3 +458,34 @@ function componentTagger(src, map) {
         done(err);
     }
 }
+
+// ... earlier code unchanged ...
+
+        const out = ms.toString();
+        let outMap = ms.generateMap({ hires: true });
+
+        // Sanitize the sourcemap: ensure fields expected to be strings/arrays are not null.
+        if (outMap) {
+          // Ensure file is a string
+          if (outMap.file == null) outMap.file = '';
+          if (outMap.sourceRoot == null) outMap.sourceRoot = '';
+          if (Array.isArray(outMap.sources)) {
+            outMap.sources = outMap.sources.map(s => (s == null ? '' : s));
+          } else {
+            outMap.sources = [];
+          }
+          // Ensure sourcesContent is an array of strings
+          if (Array.isArray(outMap.sourcesContent)) {
+            outMap.sourcesContent = outMap.sourcesContent.map(sc => (sc == null ? '' : sc));
+          } else {
+            outMap.sourcesContent = [];
+          }
+          // Ensure names array exists
+          if (!Array.isArray(outMap.names)) outMap.names = [];
+        } else {
+          // Fallback to an empty map if generateMap failed
+          outMap = { version: 3, file: '', sources: [], sourcesContent: [], names: [], mappings: '' };
+        }
+
+        /* Turbopack expects the sourcemap as a JSON *string*. */
+        done(null, out, JSON.stringify(outMap));
