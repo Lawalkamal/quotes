@@ -14,12 +14,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true
   },
-  eslint: {
-    ignoreDuringBuilds: true
-  },
+  // removed the unsupported `eslint` key for Next 16
   turbopack: {
     rules: {
-      "*.{jsx,tsx}": {
+      '*.{jsx,tsx}': {
         loaders: [LOADER]
       }
     }
