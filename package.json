@@ -2,6 +2,12 @@
     "name": "app",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+      "node": ">=18.x"
+    },
+    "overrides": {
+      "@react-three/drei": "10.4.4"
+    },
     "scripts": {
         "dev": "next dev --turbopack",
         "build": "next build",
